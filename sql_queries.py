@@ -10,38 +10,38 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 
 songplay_table_create = (
     """
-    CREATE TABLE IF NOT EXISTS songplays 
-    (songplay_id serial PRIMARY KEY, start_time timestamp NOT NULL, 
+    CREATE TABLE IF NOT EXISTS songplays
+    (songplay_id serial PRIMARY KEY, start_time timestamp NOT NULL,
     user_id int NULL, level varchar NOT NULL, song_id varchar NULL,
-    artist_id varchar NULL, session_id int NOT NULL, 
+    artist_id varchar NULL, session_id int NOT NULL,
     location varchar, user_agent varchar)
     """)
 
 user_table_create = (
     """
     CREATE TABLE IF NOT EXISTS users
-    (user_id int PRIMARY KEY, first_name varchar NOT NULL, last_name varchar NOT NULL, 
+    (user_id int PRIMARY KEY, first_name varchar NOT NULL, last_name varchar NOT NULL,
     gender varchar, level varchar)
     """)
 
 song_table_create = (
     """
     CREATE TABLE IF NOT EXISTS songs
-    (song_id varchar PRIMARY KEY, title varchar NOT NULL, 
+    (song_id varchar PRIMARY KEY, title varchar NOT NULL,
     artist_id varchar NOT NULL, year int, duration numeric NOT NULL)
     """)
 
 artist_table_create = (
     """
     CREATE TABLE IF NOT EXISTS artists
-    (artist_id varchar PRIMARY KEY, name varchar NOT NULL, location varchar, 
+    (artist_id varchar PRIMARY KEY, name varchar NOT NULL, location varchar,
     latitude numeric, longitude numeric)
     """)
 
 time_table_create = (
     """
     CREATE TABLE IF NOT EXISTS time
-    (start_time timestamp PRIMARY KEY, hour int NOT NULL, day int NOT NULL, 
+    (start_time timestamp PRIMARY KEY, hour int NOT NULL, day int NOT NULL,
     week int NOT NULL, month int NOT NULL, year int NOT NULL, weekday varchar NOT NULL)
     """)
 
@@ -49,7 +49,7 @@ time_table_create = (
 
 songplay_table_insert = (
     """
-    INSERT INTO songplays 
+    INSERT INTO songplays
     (start_time, user_id, level, song_id,
     artist_id, session_id, location, user_agent)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
@@ -59,16 +59,16 @@ songplay_table_insert = (
 user_table_insert = (
     """
     INSERT INTO users
-    (user_id, first_name, last_name, 
+    (user_id, first_name, last_name,
     gender, level)
     VALUES (%s, %s, %s, %s, %s)
-    ON CONFLICT DO NOTHING
+    ON CONFLICT (user_id) DO UPDATE SET level = EXCLUDED.level
     """)
 
 song_table_insert = (
     """
     INSERT INTO songs
-    (song_id, title, artist_id, 
+    (song_id, title, artist_id,
     year, duration)
     VALUES (%s, %s, %s, %s, %s)
     ON CONFLICT DO NOTHING
@@ -77,7 +77,7 @@ song_table_insert = (
 artist_table_insert = (
     """
     INSERT INTO artists
-    (artist_id, name, location, 
+    (artist_id, name, location,
     latitude, longitude)
     VALUES (%s, %s, %s, %s, %s)
     ON CONFLICT DO NOTHING
@@ -87,7 +87,7 @@ artist_table_insert = (
 time_table_insert = (
     """
     INSERT INTO time
-    (start_time, hour, day, 
+    (start_time, hour, day,
     week, month, year, weekday)
     VALUES (%s, %s, %s, %s, %s, %s, %s)
     ON CONFLICT DO NOTHING
